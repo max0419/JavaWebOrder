@@ -1,6 +1,9 @@
 <%@ page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <style>
 	.item-count {
@@ -22,7 +25,16 @@
 	
 	📄<a href="/JavaWebCart/product/list">商品管理</a> | 
 	📝<a href="/JavaWebCart/product/order">商品訂購</a> | 
-	<span class="item-count">${ itemCount }</span> 🛒<a href="/JavaWebCart/product/cart">商品購物車</a> | 
+	<span class="item-count">
+		<c:choose>
+			<c:when test="${ empty cart }">
+				0
+			</c:when>
+			<c:otherwise>
+				${ fn:length(sessionScope.cart)}
+			</c:otherwise>
+		</c:choose>
+	</span> 🛒<a href="/JavaWebCart/product/cart">商品購物車</a> | 
 	📃<a href="/JavaWebCart/product/order/history">訂單歷史紀錄</a> |
 	📊<a href="/JavaWebCart/product/statistics">商品統計</a> |
 	 

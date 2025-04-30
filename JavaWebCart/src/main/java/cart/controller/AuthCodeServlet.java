@@ -30,12 +30,24 @@ public class AuthCodeServlet extends HttpServlet {
 		}
 		return authcode.toString();
 	}
+	
+	private String generateAuthCode2() {
+	    String[] emojis = {"😀", "🚀", "🎉", "🐶", "🍕", "🌟", "🎵", "📚", "⚽", "🏖️"};
+	    StringBuilder authcode = new StringBuilder();
+	    Random random = new Random();
+	    for (int i = 0; i < 4; i++) {
+	        int index = random.nextInt(emojis.length); // 隨機選擇一個 emoji
+	        authcode.append(emojis[index]); // 加入到認證碼中
+	    }
+	    return authcode.toString();
+	}
 		
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Random random = new Random();
-		//String authcode = String.format("%04d", random.nextInt(10000)); // 0000~9999 的隨機數
-		String authcode = generateAuthCode();
+		String authcode = String.format("%04d", random.nextInt(10000)); // 0000~9999 的隨機數
+		//String authcode = generateAuthCode();
+		
 		// 將 authcode 存入到 HttpSession 屬性中
 		HttpSession session = req.getSession();
 		session.setAttribute("authcode", authcode);
@@ -56,7 +68,7 @@ public class AuthCodeServlet extends HttpServlet {
 		// 設定顏色
 		g.setColor(Color.BLACK);
 		// 設定字型
-		g.setFont(new Font("Arial", Font.BOLD, 22)); // 字體, 風格, 大小
+		g.setFont(new Font("Segoe UI Emoji", Font.BOLD, 22)); // 字體, 風格, 大小
 		// 繪文字
 		g.drawString(authcode, 18, 22); // (18, 22) 表示繪文字左上角的起點
 		// 加上干擾線
@@ -73,6 +85,4 @@ public class AuthCodeServlet extends HttpServlet {
 		}
 		return img;
 	}
-	
-	// gitttttttttttt
 }
